@@ -26,9 +26,17 @@
     <main></main>
     <section class="add-project-container">
       <button class="add-project-btn">Add Project</button>
-      <form class="add-project-form">
-        <label for="project-title-input">Project Title:</label>
-        <input type="text" id="project-title-input" />
+      <form class="add-project-form hide-form">
+        <label class="add-project-label" for="project-title-input">
+          Title:
+        </label>
+        <input
+          type="text"
+          class="add-project-input"
+          id="project-title-input"
+          required
+        />
+        <button class="add-project-submit"><i class="fas fa-plus"></i></button>
       </form>
     </section>
     <script src="main.js"></script>

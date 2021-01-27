@@ -103,6 +103,28 @@ const createProjectCard = (project) => {
   return projectCard;
 };
 
+const addProjectBtn = document.querySelector('.add-project-btn');
+const addProjectForm = document.querySelector('.add-project-form');
+const projectTitleInput = document.querySelector('#project-title-input');
+
+const toggleAddProjectForm = (e) => {
+  addProjectForm.classList.toggle('hide-form');
+  projectTitleInput.value = '';
+};
+
+addProjectBtn.addEventListener('click', toggleAddProjectForm);
+
+const createProject = (e) => {
+  e.preventDefault();
+  const newProject = Project(projectTitleInput.value);
+  projects.push(newProject);
+  createProjectCard(newProject);
+  toggleAddProjectForm();
+  console.log(projects);
+};
+
+addProjectForm.addEventListener('submit', createProject);
+
 for (let i = 0; i < projects.length; i++) {
   console.log(projects[i]);
   createProjectCard(projects[i]);
