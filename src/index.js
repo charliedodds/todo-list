@@ -3,7 +3,7 @@ import Todo from './Todo';
 
 const projects = [];
 
-const instructionsProject = Project('Instructions');
+const instructionsProject = Project('Open me to start');
 
 const firstTodo = Todo('Add Todo', 'Add a todo to this project', 'now', 'high');
 instructionsProject.todos.push(firstTodo);
@@ -39,42 +39,70 @@ const createProjectTodos = (projectTodos, parentProject) => {
   const todoList = document.createElement('ul');
   todoList.classList.add('todo-list');
   for (let i = 0; i < projectTodos.length; i++) {
-    const todo = document.createElement('li');
-    todo.classList.add('todo-item');
-    todo.textContent = projectTodos[i].title;
-    todoList.appendChild(todo);
+    const todoItem = document.createElement('li');
+    todoItem.classList.add('todo-item');
+    const todoItemContainer = document.createElement('div');
+    todoItemContainer.classList.add('todo-item-container');
+    const todoCheck = document.createElement('input');
+    todoCheck.type = 'checkbox';
+    todoCheck.classList.add('todo-check');
+    todoItemContainer.appendChild(todoCheck);
+    const todoItemTask = document.createElement('div');
+    todoItemTask.classList.add('todo-item-task');
+    todoItemTask.textContent = projectTodos[i].title;
+    todoItemContainer.appendChild(todoItemTask);
+    const utilContainer = document.createElement('div');
+    utilContainer.classList.add('todo-item-utils');
+    todoItemContainer.appendChild(utilContainer);
+    todoItem.appendChild(todoItemContainer);
+    todoList.appendChild(todoItem);
   }
   parentProject.appendChild(todoList);
 };
 
-const createProjectCardNums = (projectObj, parentProject) => {
+const handleProjectBtnClick = (e) => {
+  e.target.parentElement.parentElement.parentElement.classList.toggle(
+    'hide-todo-list'
+  );
+  e.target.classList.toggle('flip-down');
+  e.target.classList.toggle('flip-up');
+};
+
+const createProjectCardFooter = (projectObj, parentProject) => {
+  const projectFooter = document.createElement('footer');
+  projectFooter.classList.add('project-footer');
   const numTodos = document.createElement('p');
   numTodos.classList.add('num-todos');
   numTodos.textContent = `${projectObj.todos.length} todo${
     projectObj.todos.length === 1 ? '' : 's'
   }`;
-  parentProject.appendChild(numTodos);
+  projectFooter.appendChild(numTodos);
+  const projectBtn = document.createElement('button');
+  projectBtn.classList.add('project-button');
+  const iElement = document.createElement('i');
+  iElement.classList.add('fas');
+  iElement.classList.add('fa-chevron-up');
+  iElement.classList.add('flip-down');
+  projectBtn.appendChild(iElement);
+  projectBtn.addEventListener('click', handleProjectBtnClick);
+  projectFooter.appendChild(projectBtn);
+  parentProject.appendChild(projectFooter);
 };
 
 const createProjectCard = (project) => {
-  const bod = document.body;
+  const main = document.querySelector('main');
   const projectCard = document.createElement('section');
   projectCard.classList.add('project-card');
+  projectCard.classList.add('hide-todo-list');
   createProjectCardTitle(project, projectCard);
   createProjectTodos(project.todos, projectCard);
-  createProjectCardNums(project, projectCard);
-  bod.appendChild(projectCard);
+  createProjectCardFooter(project, projectCard);
+  main.appendChild(projectCard);
   return projectCard;
-};
-
-const handleProjectCardClick = (e) => {
-  e.target.classList.toggle('expand');
 };
 
 for (let i = 0; i < projects.length; i++) {
   console.log(projects[i]);
   const project = createProjectCard(projects[i]);
-  project.addEventListener('click', handleProjectCardClick);
+  console.log(project.children);
 }
-
-console.log(firstTodo);
