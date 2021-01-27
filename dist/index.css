@@ -16,6 +16,68 @@ body {
 
 body {
   background-color: #fffefc;
-  color: #111;
+  color: #00000099;
   font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #111;
+}
+
+header {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  font-size: 2rem;
+  margin: 0.5rem 0 0;
+  font-weight: 500;
+}
+
+.project-card {
+  width: 80%;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid #00000022;
+  border-radius: 4px;
+}
+
+.project-card > * {
+  pointer-events: none;
+}
+
+.project-title {
+  margin: 0 0 1rem;
+  border-bottom: 1px solid #00000011;
+  padding-bottom: 0.5rem;
+}
+
+.todo-list {
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+}
+
+.expand .todo-list {
+  height: 100%;
+}
+
+.num-todos {
+  margin: 0;
+  font-size: 1.2rem;
 }
