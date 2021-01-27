@@ -5,26 +5,28 @@ const projects = [];
 
 const instructionsProject = Project('Open me to start');
 
-const firstTodo = Todo('Add Todo', 'Add a todo to this project', 'now', 'high');
+const firstTodo = Todo(
+  'Add new todo',
+  'Add ability to add new todo',
+  'now',
+  'high'
+);
 instructionsProject.todos.push(firstTodo);
 
 instructionsProject.todos.push(
-  Todo('Add Second Todo', 'Add another todo to this project', 'today', 'medium')
+  Todo('Add new project', 'Add ability to add new projects', 'today', 'medium')
 );
 
-const secondProject = Project('Second Project');
-
-secondProject.todos.push(
+instructionsProject.todos.push(
   Todo(
-    'Second project todo',
-    'this is a second project todo',
-    'tomorrow',
+    'Add edit/delete buttons',
+    'Add ability to "open" todos, edit and delete them',
+    'sometime',
     'low'
   )
 );
 
 projects.push(instructionsProject);
-projects.push(secondProject);
 
 console.log(projects);
 
@@ -103,6 +105,5 @@ const createProjectCard = (project) => {
 
 for (let i = 0; i < projects.length; i++) {
   console.log(projects[i]);
-  const project = createProjectCard(projects[i]);
-  console.log(project.children);
+  createProjectCard(projects[i]);
 }
