@@ -99,7 +99,7 @@ input {
 
 .num-todos {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 .project-button {
@@ -142,6 +142,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .add-project-btn {
@@ -157,4 +158,14 @@ input {
 .add-project-btn:hover {
   color: #000;
   border-bottom: 1px solid #000;
+}
+
+.add-project-form {
+  display: flex;
+  width: 90%;
+  margin: auto;
+}
+
+#project-title-input {
+  width: 60%;
 }
