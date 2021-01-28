@@ -80,9 +80,8 @@ const createProjectTodos = (projectTodos, parentProject) => {
 const handleProjectBtnClick = (e) => {
   const parent = e.target.closest('.project-card');
   parent.classList.toggle('hide-todo-list');
-  const chevronBtn = document.querySelector('.fa-chevron-up');
-  chevronBtn.classList.toggle('flip-down');
-  chevronBtn.classList.toggle('flip-up');
+  e.target.classList.toggle('flip-down');
+  e.target.classList.toggle('flip-up');
 };
 
 const createProjectCardFooter = (projectObj, parentProject) => {
