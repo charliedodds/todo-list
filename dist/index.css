@@ -62,7 +62,8 @@ button {
   font-weight: 500;
 }
 
-.hide-todo-list > ul {
+.hide-todo-list > ul,
+.hide-todo-list .add-todo-btn {
   display: none;
 }
 
@@ -104,10 +105,13 @@ button {
 
 .todo-item-task {
   color: #000000aa;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
 }
 
 .todo-item-utils {
-  opacity: 1;
+  opacity: 0;
   margin-left: auto;
   font-size: 1.3rem;
 }
@@ -143,24 +147,11 @@ button {
   transform: scale(1.5);
 } */
 
-.flip-up {
-  animation: 400ms flip-up forwards;
+.flip {
+  animation: flip forwards;
 }
 
-.flip-down {
-  animation: 400ms flip-down forwards;
-}
-
-@keyframes flip-up {
-  0% {
-    transform: rotateX(180deg);
-  }
-  100% {
-    transform: rotateX(0deg);
-  }
-}
-
-@keyframes flip-down {
+@keyframes flip {
   100% {
     transform: rotateX(180deg);
   }
