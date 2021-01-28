@@ -55,6 +55,21 @@ const createProjectTodos = (projectTodos, parentProject) => {
     todoItemContainer.appendChild(todoItemTask);
     const utilContainer = document.createElement('div');
     utilContainer.classList.add('todo-item-utils');
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('todo-edit-btn');
+    const faEdit = document.createElement('i');
+    faEdit.classList.add('fas');
+    faEdit.classList.add('fa-pen');
+    editBtn.appendChild(faEdit);
+    utilContainer.appendChild(editBtn);
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('todo-delete-btn');
+    const faDelete = document.createElement('i');
+    faDelete.classList.add('fas');
+    faDelete.classList.add('fa-trash');
+    deleteBtn.appendChild(faDelete);
+    utilContainer.appendChild(deleteBtn);
+
     todoItemContainer.appendChild(utilContainer);
     todoItem.appendChild(todoItemContainer);
     todoList.appendChild(todoItem);
@@ -79,13 +94,20 @@ const createProjectCardFooter = (projectObj, parentProject) => {
     projectObj.todos.length === 1 ? '' : 's'
   }`;
   projectFooter.appendChild(numTodos);
+  const addTodoBtn = document.createElement('button');
+  addTodoBtn.classList.add('add-todo-btn');
+  const faPlus = document.createElement('i');
+  faPlus.classList.add('fas');
+  faPlus.classList.add('fa-plus');
+  addTodoBtn.appendChild(faPlus);
+  projectFooter.appendChild(addTodoBtn);
   const projectBtn = document.createElement('button');
   projectBtn.classList.add('project-button');
-  const iElement = document.createElement('i');
-  iElement.classList.add('fas');
-  iElement.classList.add('fa-chevron-up');
-  iElement.classList.add('flip-down');
-  projectBtn.appendChild(iElement);
+  const faChevron = document.createElement('i');
+  faChevron.classList.add('fas');
+  faChevron.classList.add('fa-chevron-up');
+  faChevron.classList.add('flip-down');
+  projectBtn.appendChild(faChevron);
   projectBtn.addEventListener('click', handleProjectBtnClick);
   projectFooter.appendChild(projectBtn);
   parentProject.appendChild(projectFooter);

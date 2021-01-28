@@ -45,6 +45,7 @@ input {
 button {
   background-color: transparent;
   border: none;
+  outline: none;
   font-size: inherit;
   color: inherit;
 }
@@ -63,6 +64,10 @@ button {
 
 .hide-todo-list > ul {
   display: none;
+}
+
+.hide-todo-list > .add-todo-btn {
+  opacity: 0;
 }
 
 .project-card {
@@ -87,8 +92,14 @@ button {
 }
 
 .todo-item-container {
+  cursor: pointer;
   display: flex;
   align-items: center;
+}
+
+.todo-item-container:hover > .todo-item-utils {
+  opacity: 1;
+  transition: opacity 200ms;
 }
 
 .todo-check {
@@ -99,6 +110,12 @@ button {
   color: #000000aa;
 }
 
+.todo-item-utils {
+  opacity: 1;
+  margin-left: auto;
+  font-size: 1.3rem;
+}
+
 .project-footer {
   display: flex;
   justify-content: space-between;
@@ -106,13 +123,22 @@ button {
 }
 
 .num-todos {
+  width: 20%;
   margin: 0;
   font-size: 1.3rem;
 }
 
+.add-todo-btn {
+  opacity: 1;
+  justify-self: center;
+}
+
 .project-button {
-  width: 25px;
+  width: 20%;
   height: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   transition: transform 200ms;
 }
 
