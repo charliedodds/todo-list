@@ -37,9 +37,11 @@ header {
 
 button,
 label,
-input {
+input,
+select {
   font-family: inherit;
   cursor: pointer;
+  color: inherit;
 }
 
 button {
@@ -47,7 +49,30 @@ button {
   border: none;
   outline: none;
   font-size: inherit;
+}
+
+form {
+  display: flex;
+  margin: 0.5rem auto;
+}
+
+label {
+  margin-right: 0.5rem;
+  font-size: 1.4rem;
+}
+
+input {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1.3rem;
+}
+
+select {
+  border: none;
+  background-color: transparent;
   color: inherit;
+  padding: 0.25rem;
 }
 
 .title {
@@ -91,6 +116,7 @@ button {
 .todo-item-container {
   display: flex;
   align-items: center;
+  margin: 0.3rem 0;
 }
 
 .todo-item-container:hover > .todo-item-utils {
@@ -116,15 +142,86 @@ button {
   font-weight: 600;
 }
 
+.priority-marker {
+  margin-left: auto;
+  margin-right: 0.25rem;
+  width: 6rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  border-radius: 3rem;
+  font-size: 1.2rem;
+  padding: 0.25rem;
+}
+
+.low {
+  border: 2px solid #00800022;
+  background-color: #00800011;
+  color: #008000;
+}
+
+.medium {
+  border: 2px solid #ffa50022;
+  background-color: #ffa50011;
+  color: #ce8600;
+}
+
+.high {
+  border: 2px solid #ff000022;
+  background-color: #ff000011;
+  color: #ff0000;
+}
+
 .todo-item-utils {
   opacity: 0;
-  margin-left: auto;
   font-size: 1.3rem;
+}
+
+.todo-edit-btn,
+.todo-delete-btn {
+  padding: 0.25rem;
 }
 
 .todo-description {
   display: none;
-  margin: 0.25rem 0 0.5rem 1.75rem;
+  margin: 0.125rem 0 0.5rem 1.75rem;
+  font-size: 1.3rem;
+}
+
+.new-todo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-todo-form-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-todo-form-label {
+  font-size: 1.3rem;
+}
+
+.new-todo-form-input {
+  margin: 0.25rem 0;
+  width: 50%;
+  flex: 1;
+  font-size: 1.2rem;
+}
+
+.submit-todo-btn,
+.add-project-btn {
+  padding: 0 0 0.25rem;
+  border-bottom: 1px solid #00000000;
+  transition: all 400ms;
+}
+
+.submit-todo-btn {
+  width: fit-content;
+  margin: 1rem auto;
+  font-size: 1.4rem;
 }
 
 .project-footer {
@@ -177,37 +274,27 @@ button {
 
 .add-project-btn {
   background-color: transparent;
-  padding: 0 0 0.25rem;
-  border-bottom: 1px solid #00000000;
   color: inherit;
   font-size: 1.6rem;
-  transition: all 400ms;
 }
 
-.add-project-btn:hover {
+.add-project-btn:hover,
+.submit-todo-btn:hover {
   color: #000;
   border-bottom: 1px solid #000;
 }
 
 .add-project-form {
-  display: flex;
   width: 90%;
-  margin: 0.5rem auto;
   justify-content: center;
   align-items: center;
 }
 
 .add-project-label {
-  margin-right: 0.5rem;
-  font-size: 1.4rem;
 }
 
 .add-project-input {
   width: 60%;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 1.3rem;
 }
 
 .hide-form {
