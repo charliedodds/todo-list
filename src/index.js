@@ -66,6 +66,15 @@ const createEditBtn = (parentElement) => {
   parentElement.appendChild(editBtn);
 };
 
+const deleteTodo = (e) => {
+  const parentProject = e.target.closest('.project-card');
+  const parentTodo = e.target.closest('.todo-item');
+  const project = projects.find((project) => project.id === parentProject.id);
+  project.todos = project.todos.filter((todo) => todo.id !== parentTodo.id);
+  const projectTodoList = parentProject.querySelector('.todo-list');
+  projectTodoList.removeChild(parentTodo);
+};
+
 const createDeleteBtn = (parentElement) => {
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('todo-delete-btn');
@@ -73,6 +82,7 @@ const createDeleteBtn = (parentElement) => {
   faDelete.classList.add('fas');
   faDelete.classList.add('fa-trash');
   deleteBtn.appendChild(faDelete);
+  deleteBtn.addEventListener('click', deleteTodo);
   parentElement.appendChild(deleteBtn);
 };
 
@@ -97,6 +107,26 @@ const createCheckbox = (parentElement) => {
   parentElement.appendChild(todoCheck);
 };
 
+const handleTodoClick = (e) => {
+  toggleTodoDescription(e);
+  toggleUtilButtons(e);
+};
+
+const toggleOpacity = (element) => {
+  if (!element.style.opacity || element.style.opacity === '0') {
+    element.style.opacity = 1;
+    element.style.pointerEvents = 'unset';
+  } else {
+    element.style.opacity = 0;
+    element.style.pointerEvents = 'none';
+  }
+};
+
+const toggleUtilButtons = (e) => {
+  const utilButtons = e.target.nextElementSibling.nextElementSibling;
+  toggleOpacity(utilButtons);
+};
+
 const toggleTodoDescription = (e) => {
   const todoDescription = e.target.closest('.todo-item').children[1];
   if (
@@ -113,7 +143,7 @@ const createTodoTask = (todo, parentElement) => {
   const todoItemTask = document.createElement('h3');
   todoItemTask.classList.add('todo-item-task');
   todoItemTask.textContent = todo.title;
-  todoItemTask.addEventListener('click', toggleTodoDescription);
+  todoItemTask.addEventListener('click', handleTodoClick);
   parentElement.appendChild(todoItemTask);
 };
 
