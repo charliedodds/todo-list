@@ -5,18 +5,18 @@ if (!localStorage.getItem('projects')) {
   localStorage.setItem('projects', '[]');
 }
 
-const projects = JSON.parse(localStorage.getItem('projects'));
+let projects = JSON.parse(localStorage.getItem('projects'));
 
 const setLocalStorage = () => {
   localStorage.setItem('projects', JSON.stringify(projects));
 };
 
 const createInitialProject = () => {
-  const instructionsProject = Project('Open me to start');
+  const instructionsProject = Project('Open me with the arrow');
 
   const firstTodo = Todo(
-    'Add new todo',
-    'Add ability to add new todo',
+    'Tap a todo for more info',
+    'And tap again to hide!',
     'now',
     'high'
   );
@@ -24,8 +24,8 @@ const createInitialProject = () => {
 
   instructionsProject.todos.push(
     Todo(
-      'Add new project',
-      'Add ability to add new projects',
+      'How to add todos',
+      'Tap the plus sign to add a todo, then tap "Add todo"',
       'today',
       'medium'
     )
@@ -33,8 +33,26 @@ const createInitialProject = () => {
 
   instructionsProject.todos.push(
     Todo(
-      'Add edit/delete buttons',
-      'Add ability to "open" todos, edit and delete them',
+      'How to add projects',
+      'Just tap "Add Project" below',
+      'sometime',
+      'low'
+    )
+  );
+
+  instructionsProject.todos.push(
+    Todo(
+      'Edit and delete',
+      'When you open a project or todo, just tap their respective buttons to edit or delete them.',
+      'sometime',
+      'low'
+    )
+  );
+
+  instructionsProject.todos.push(
+    Todo(
+      'Mark a todo as done',
+      "Just tap the checkbox on the todo you want to mark as completed. Don't delete completed todos for a greater sense of accomplishment!",
       'sometime',
       'low'
     )
@@ -70,18 +88,47 @@ const createProjectUtils = (parentElement) => {
   parentElement.appendChild(utilContainer);
 };
 
+const updateProjectTitle = (e) => {
+  e.preventDefault();
+  console.log(e);
+};
+
+const openEditProject = (e) => {
+  const projectHeader = e.target.closest('.project-header');
+  const currentTitle = projectHeader.querySelector('.project-title');
+  const projectHeaderUtilButtons = projectHeader.querySelector(
+    '.project-utils'
+  );
+  const editProjectTitleForm = document.createElement('form');
+  editProjectTitleForm.classList.add('edit-project-title-form');
+  const titleInput = document.createElement('input');
+  titleInput.classList.add('edit-project-input');
+  titleInput.id = 'edit-project-title-input';
+  titleInput.placeholder = currentTitle.textContent;
+  editProjectTitleForm.appendChild(titleInput);
+  editProjectTitleForm.addEventListener('submit', updateProjectTitle);
+  projectHeader.removeChild(currentTitle);
+  projectHeader.removeChild(projectHeaderUtilButtons);
+  projectHeader.appendChild(editProjectTitleForm);
+};
+
 const createProjectEditBtn = (parentElement) => {
   const editBtn = document.createElement('button');
   editBtn.classList.add('project-edit-btn');
   const faEdit = document.createElement('i');
   faEdit.classList.add('fas');
   faEdit.classList.add('fa-pen');
+  editBtn.addEventListener('click', openEditProject);
   editBtn.appendChild(faEdit);
   parentElement.appendChild(editBtn);
 };
 
 const deleteProject = (e) => {
-  console.log(e);
+  const main = document.querySelector('main');
+  const parentProject = e.target.closest('.project-card');
+  projects = projects.filter((project) => project.id !== parentProject.id);
+  main.removeChild(parentProject);
+  setLocalStorage();
 };
 
 const createProjectDeleteBtn = (parentElement) => {
