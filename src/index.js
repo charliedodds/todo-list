@@ -152,24 +152,46 @@ const createTodoDescription = (todo, parentElement) => {
   parentElement.appendChild(todoDescription);
 };
 
+const createTodo = (todo, parentElement) => {
+  const todoItem = document.createElement('li');
+  todoItem.classList.add('todo-item');
+  todoItem.id = todo.id;
+  createTodoContainer(todo, todoItem);
+  createTodoDescription(todo, todoItem);
+  parentElement.appendChild(todoItem);
+};
+
 const createProjectTodos = (projectTodos, parentProject) => {
   const todoList = document.createElement('ul');
   todoList.classList.add('todo-list');
   for (let i = 0; i < projectTodos.length; i++) {
-    const todoItem = document.createElement('li');
-    todoItem.classList.add('todo-item');
-    todoItem.id = projectTodos[i].id;
-    createTodoContainer(projectTodos[i], todoItem);
-    createTodoDescription(projectTodos[i], todoItem);
-    todoList.appendChild(todoItem);
+    createTodo(projectTodos[i], todoList);
   }
   parentProject.appendChild(todoList);
+};
+
+const resetAddTodoBtn = () => {
+  const plusIcon = document.querySelector('.fa-plus');
+  plusIcon.style.transform = 'rotate(0deg)';
+};
+
+const rotateAddTodoBtn = () => {
+  const plusIcon = document.querySelector('.fa-plus');
+  if (
+    !plusIcon.style.transform ||
+    plusIcon.style.transform === 'rotate(0deg)'
+  ) {
+    plusIcon.style.transform = 'rotate(45deg)';
+  } else {
+    plusIcon.style.transform = 'rotate(0deg)';
+  }
 };
 
 const handleProjectBtnClick = (e) => {
   const parent = e.target.closest('.project-card');
   parent.classList.toggle('hide-todo-list');
   e.target.classList.toggle('flip');
+  resetAddTodoBtn();
   const todoForm = document.querySelector('.new-todo-form');
   removeElement(parent, todoForm);
 };
@@ -298,11 +320,26 @@ const onNewTodoSubmit = (e) => {
   const parentProject = e.target.closest('.project-card');
   const newTodoForm = document.querySelector('.new-todo-form');
   const todoList = parentProject.querySelector('.todo-list');
-
-  // create todo
-
-  // add todo to todoList
-
+  const newTitle = document.querySelector('#new-todo-form-title-input');
+  const newDescription = document.querySelector(
+    '#new-todo-form-description-input'
+  );
+  const newDueDate = document.querySelector('#new-todo-form-due-date-input');
+  const newPriority = document.querySelector('#new-todo-form-priority-input');
+  const newTodo = Todo(
+    newTitle.value,
+    newDescription.value,
+    newDueDate.value,
+    newPriority.value
+  );
+  for (let i = 0; i < projects.length; i++) {
+    if (projects[i].id === parentProject.id) {
+      projects[i].todos.push(newTodo);
+    }
+    console.log(projects[i]);
+  }
+  createTodo(newTodo, todoList);
+  resetAddTodoBtn();
   removeElement(parentProject, newTodoForm);
 };
 
@@ -325,7 +362,9 @@ const toggleNewTodoForm = (e) => {
     const projectFooter = parentProject.querySelector('.project-footer');
     const newTodoForm = createNewTodoForm();
     parentProject.insertBefore(newTodoForm, projectFooter);
+    rotateAddTodoBtn();
   } else {
+    resetAddTodoBtn();
     removeElement(parentProject, todoForm);
   }
 };

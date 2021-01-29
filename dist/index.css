@@ -221,7 +221,8 @@ select {
 .submit-todo-btn {
   width: fit-content;
   margin: 1rem auto;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .project-footer {
@@ -288,9 +289,6 @@ select {
   width: 90%;
   justify-content: center;
   align-items: center;
-}
-
-.add-project-label {
 }
 
 .add-project-input {
