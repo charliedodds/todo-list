@@ -90,15 +90,28 @@ const createProjectUtils = (parentElement) => {
 
 const updateProjectTitle = (e) => {
   e.preventDefault();
-  console.log(e);
+  const newTitle = document.querySelector('#edit-project-title-input');
+  const projectCard = e.target.closest('.project-card');
+  const header = projectCard.querySelector('.project-header');
+  const projectTitle = projectCard.querySelector('.project-title');
+  const editProjectTitleForm = projectCard.querySelector(
+    '.edit-project-title-form'
+  );
+  projectTitle.textContent = newTitle.value;
+  projectCard.removeChild(editProjectTitleForm);
+  header.style.display = 'flex';
+  const project = projects.find((project) => project.id === projectCard.id);
+  project.title = newTitle.value;
+  setLocalStorage();
 };
 
 const openEditProject = (e) => {
+  const projectCard = e.target.closest('.project-card');
   const projectHeader = e.target.closest('.project-header');
   const currentTitle = projectHeader.querySelector('.project-title');
-  const projectHeaderUtilButtons = projectHeader.querySelector(
-    '.project-utils'
-  );
+  // const projectHeaderUtilButtons = projectHeader.querySelector(
+  //   '.project-utils'
+  // );
   const editProjectTitleForm = document.createElement('form');
   editProjectTitleForm.classList.add('edit-project-title-form');
   const titleInput = document.createElement('input');
@@ -107,9 +120,10 @@ const openEditProject = (e) => {
   titleInput.placeholder = currentTitle.textContent;
   editProjectTitleForm.appendChild(titleInput);
   editProjectTitleForm.addEventListener('submit', updateProjectTitle);
-  projectHeader.removeChild(currentTitle);
-  projectHeader.removeChild(projectHeaderUtilButtons);
-  projectHeader.appendChild(editProjectTitleForm);
+  // projectHeader.removeChild(currentTitle);
+  // projectHeader.removeChild(projectHeaderUtilButtons);
+  projectHeader.style.display = 'none';
+  projectCard.prepend(editProjectTitleForm);
 };
 
 const createProjectEditBtn = (parentElement) => {
