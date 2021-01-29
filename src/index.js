@@ -54,11 +54,52 @@ const removeElement = (parent, element) => {
   }
 };
 
-const createProjectCardTitle = (projectObj, parentProject) => {
+const createProjectCardHeader = (projectObj, parentProject) => {
+  const projectHeader = document.createElement('header');
+  projectHeader.classList.add('project-header');
+  createProjectTitle(projectObj, projectHeader);
+  createProjectUtils(projectHeader);
+  parentProject.appendChild(projectHeader);
+};
+
+const createProjectUtils = (parentElement) => {
+  const utilContainer = document.createElement('div');
+  utilContainer.classList.add('project-utils');
+  createProjectEditBtn(utilContainer);
+  createProjectDeleteBtn(utilContainer);
+  parentElement.appendChild(utilContainer);
+};
+
+const createProjectEditBtn = (parentElement) => {
+  const editBtn = document.createElement('button');
+  editBtn.classList.add('project-edit-btn');
+  const faEdit = document.createElement('i');
+  faEdit.classList.add('fas');
+  faEdit.classList.add('fa-pen');
+  editBtn.appendChild(faEdit);
+  parentElement.appendChild(editBtn);
+};
+
+const deleteProject = (e) => {
+  console.log(e);
+};
+
+const createProjectDeleteBtn = (parentElement) => {
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('project-delete-btn');
+  const faDelete = document.createElement('i');
+  faDelete.classList.add('fas');
+  faDelete.classList.add('fa-trash');
+  deleteBtn.appendChild(faDelete);
+  deleteBtn.addEventListener('click', deleteProject);
+  parentElement.appendChild(deleteBtn);
+};
+
+const createProjectTitle = (projectObj, parentElement) => {
   const projectTitle = document.createElement('h3');
   projectTitle.classList.add('project-title');
   projectTitle.textContent = projectObj.title;
-  parentProject.appendChild(projectTitle);
+  parentElement.appendChild(projectTitle);
 };
 
 const createEditBtn = (parentElement) => {
@@ -100,7 +141,7 @@ const createDeleteBtn = (parentElement) => {
   parentElement.appendChild(deleteBtn);
 };
 
-const createUtilBtns = (parentElement) => {
+const createTodoUtilBtns = (parentElement) => {
   const utilContainer = document.createElement('div');
   utilContainer.classList.add('todo-item-utils');
   createEditBtn(utilContainer);
@@ -123,7 +164,7 @@ const createCheckbox = (parentElement) => {
 
 const handleTodoClick = (e) => {
   toggleTodoDescription(e);
-  toggleUtilButtons(e);
+  toggleTodoUtilButtons(e);
 };
 
 const toggleOpacity = (element) => {
@@ -136,7 +177,7 @@ const toggleOpacity = (element) => {
   }
 };
 
-const toggleUtilButtons = (e) => {
+const toggleTodoUtilButtons = (e) => {
   const utilButtons = e.target.nextElementSibling.nextElementSibling;
   toggleOpacity(utilButtons);
 };
@@ -185,7 +226,7 @@ const createTodoContainer = (todo, parentElement) => {
   createCheckbox(todoItemContainer);
   createTodoTask(todo, todoItemContainer);
   createPriorityMarker(todo, todoItemContainer);
-  createUtilBtns(todoItemContainer);
+  createTodoUtilBtns(todoItemContainer);
   parentElement.appendChild(todoItemContainer);
 };
 
@@ -226,11 +267,18 @@ const rotateElement = (element) => {
   }
 };
 
+const toggleProjectUtilButtons = (parentElement) => {
+  const utilButtons = parentElement.querySelector('.project-utils');
+  toggleOpacity(utilButtons);
+};
+
 const handleProjectBtnClick = (e) => {
   const parent = e.target.closest('.project-card');
+  const addTodoBtn = parent.querySelector('.fa-plus');
   parent.classList.toggle('hide-todo-list');
   e.target.classList.toggle('flip');
-  resetElementRotation();
+  toggleProjectUtilButtons(parent);
+  resetElementRotation(addTodoBtn);
   const todoForm = document.querySelector('.new-todo-form');
   removeElement(parent, todoForm);
 };
@@ -449,7 +497,7 @@ const createProjectCard = (project) => {
   projectCard.classList.add('project-card');
   projectCard.classList.add('hide-todo-list');
   projectCard.id = project.id;
-  createProjectCardTitle(project, projectCard);
+  createProjectCardHeader(project, projectCard);
   createProjectTodos(project.todos, projectCard);
   createProjectCardFooter(project, projectCard);
   main.appendChild(projectCard);

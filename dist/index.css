@@ -100,10 +100,24 @@ select {
   border-radius: 4px;
 }
 
-.project-title {
+.project-header {
   margin: 0 0 1rem;
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid #00000011;
+}
+
+.project-title {
+  margin: 0;
   padding-bottom: 0.5rem;
+}
+
+.project-utils,
+.todo-item-utils {
+  pointer-events: none;
+  opacity: 0;
+  font-size: 1.3rem;
+  transition: opacity 200ms;
 }
 
 .todo-list {
@@ -118,11 +132,6 @@ select {
   align-items: center;
   margin: 0.3rem 0;
 }
-
-/* .todo-item-container:hover > .todo-item-utils {
-  opacity: 1;
-  transition: opacity 200ms;
-} */
 
 .todo-check {
   margin: 0 0.5rem 0 0;
@@ -171,12 +180,6 @@ select {
   border: 2px solid #ff000022;
   background-color: #ff000011;
   color: #ff0000;
-}
-
-.todo-item-utils {
-  pointer-events: none;
-  opacity: 0;
-  font-size: 1.3rem;
 }
 
 .todo-edit-btn,
