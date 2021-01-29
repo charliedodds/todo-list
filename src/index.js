@@ -7,6 +7,10 @@ if (!localStorage.getItem('projects')) {
 
 const projects = JSON.parse(localStorage.getItem('projects'));
 
+const setLocalStorage = () => {
+  localStorage.setItem('projects', JSON.stringify(projects));
+};
+
 const createInitialProject = () => {
   const instructionsProject = Project('Open me to start');
 
@@ -37,6 +41,7 @@ const createInitialProject = () => {
   );
 
   projects.push(instructionsProject);
+  setLocalStorage();
 };
 
 if (projects.length < 1) {
@@ -66,6 +71,13 @@ const createEditBtn = (parentElement) => {
   parentElement.appendChild(editBtn);
 };
 
+const updateNumTodos = (parentProject, todoArrayLength) => {
+  const numTodos = parentProject.querySelector('.num-todos');
+  numTodos.textContent = `${todoArrayLength} todo${
+    todoArrayLength === 1 ? '' : 's'
+  }`;
+};
+
 const deleteTodo = (e) => {
   const parentProject = e.target.closest('.project-card');
   const parentTodo = e.target.closest('.todo-item');
@@ -73,6 +85,8 @@ const deleteTodo = (e) => {
   project.todos = project.todos.filter((todo) => todo.id !== parentTodo.id);
   const projectTodoList = parentProject.querySelector('.todo-list');
   projectTodoList.removeChild(parentTodo);
+  updateNumTodos(parentProject, project.todos.length);
+  setLocalStorage();
 };
 
 const createDeleteBtn = (parentElement) => {
@@ -200,20 +214,15 @@ const createProjectTodos = (projectTodos, parentProject) => {
   parentProject.appendChild(todoList);
 };
 
-const resetAddTodoBtn = () => {
-  const plusIcon = document.querySelector('.fa-plus');
-  plusIcon.style.transform = 'rotate(0deg)';
+const resetElementRotation = (element) => {
+  element.style.transform = 'rotate(0deg)';
 };
 
-const rotateAddTodoBtn = () => {
-  const plusIcon = document.querySelector('.fa-plus');
-  if (
-    !plusIcon.style.transform ||
-    plusIcon.style.transform === 'rotate(0deg)'
-  ) {
-    plusIcon.style.transform = 'rotate(45deg)';
+const rotateElement = (element) => {
+  if (!element.style.transform || element.style.transform === 'rotate(0deg)') {
+    element.style.transform = 'rotate(45deg)';
   } else {
-    plusIcon.style.transform = 'rotate(0deg)';
+    element.style.transform = 'rotate(0deg)';
   }
 };
 
@@ -221,7 +230,7 @@ const handleProjectBtnClick = (e) => {
   const parent = e.target.closest('.project-card');
   parent.classList.toggle('hide-todo-list');
   e.target.classList.toggle('flip');
-  resetAddTodoBtn();
+  resetElementRotation();
   const todoForm = document.querySelector('.new-todo-form');
   removeElement(parent, todoForm);
 };
@@ -362,15 +371,18 @@ const onNewTodoSubmit = (e) => {
     newDueDate.value,
     newPriority.value
   );
+  let todoArrayLength;
   for (let i = 0; i < projects.length; i++) {
     if (projects[i].id === parentProject.id) {
       projects[i].todos.push(newTodo);
+      todoArrayLength = projects[i].todos.length;
     }
-    console.log(projects[i]);
   }
   createTodo(newTodo, todoList);
-  resetAddTodoBtn();
+  resetElementRotation();
   removeElement(parentProject, newTodoForm);
+  setLocalStorage();
+  updateNumTodos(parentProject, todoArrayLength);
 };
 
 const createNewTodoForm = () => {
@@ -388,13 +400,14 @@ const createNewTodoForm = () => {
 const toggleNewTodoForm = (e) => {
   const todoForm = document.querySelector('.new-todo-form');
   const parentProject = e.target.closest('.project-card');
+  const projectAddTodoBtn = parentProject.querySelector('.fa-plus');
   if (!todoForm) {
     const projectFooter = parentProject.querySelector('.project-footer');
     const newTodoForm = createNewTodoForm();
     parentProject.insertBefore(newTodoForm, projectFooter);
-    rotateAddTodoBtn();
+    rotateElement(projectAddTodoBtn);
   } else {
-    resetAddTodoBtn();
+    resetElementRotation(projectAddTodoBtn);
     removeElement(parentProject, todoForm);
   }
 };
