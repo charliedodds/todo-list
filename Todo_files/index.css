@@ -111,19 +111,6 @@ select {
   margin: 0;
   padding-bottom: 0.5rem;
   text-align: left;
-  font-size: 1.9rem;
-}
-
-.edit-project-title-form {
-  margin: 0;
-  padding: 0 0 0.5rem;
-}
-
-.edit-project-input {
-  font-size: 2rem;
-  font-weight: 700;
-  width: 100%;
-  font-size: 1.9rem;
 }
 
 .project-utils,
