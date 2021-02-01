@@ -243,6 +243,11 @@ select {
   font-size: 1.2rem;
 }
 
+#new-todo-form-due-date-input,
+#edit-todo-due-date {
+  margin-left: 1.5rem;
+}
+
 .submit-todo-btn,
 .add-project-btn,
 .update-todo-btn {
