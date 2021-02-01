@@ -57,6 +57,8 @@ form {
 }
 
 label {
+  margin-top: auto;
+  margin-bottom: auto;
   margin-right: 0.5rem;
   font-size: 1.4rem;
 }
@@ -231,7 +233,6 @@ select {
 .new-todo-form-label,
 .edit-todo-label {
   font-size: 1.3rem;
-  margin: auto 0;
 }
 
 .new-todo-form-input,
