@@ -17,7 +17,7 @@ const createInitialProject = () => {
   const firstTodo = Todo(
     'Tap a todo for more info',
     'And tap again to hide!',
-    'now',
+    '2021-12-31',
     'high'
   );
   instructionsProject.todos.push(firstTodo);
@@ -26,7 +26,7 @@ const createInitialProject = () => {
     Todo(
       'How to add todos',
       'Tap the plus sign to add a todo, then tap "Add todo"',
-      'today',
+      '2021-12-31',
       'medium'
     )
   );
@@ -35,8 +35,8 @@ const createInitialProject = () => {
     Todo(
       'How to add projects',
       'Just tap "Add Project" below',
-      'sometime',
-      'low'
+      '2021-12-31',
+      'medium'
     )
   );
 
@@ -44,8 +44,8 @@ const createInitialProject = () => {
     Todo(
       'Edit and delete',
       'When you open a project or todo, just tap their respective buttons to edit or delete them.',
-      'sometime',
-      'low'
+      '2021-12-31',
+      'medium'
     )
   );
 
@@ -53,7 +53,7 @@ const createInitialProject = () => {
     Todo(
       'Mark a todo as done',
       "Just tap the checkbox on the todo you want to mark as completed. Don't delete completed todos for a greater sense of accomplishment!",
-      'sometime',
+      '2021-12-31',
       'low'
     )
   );
@@ -118,6 +118,7 @@ const openEditProject = (e) => {
   titleInput.classList.add('edit-project-input');
   titleInput.id = 'edit-project-title-input';
   titleInput.placeholder = currentTitle.textContent;
+  titleInput.required = true;
   editProjectTitleForm.appendChild(titleInput);
   editProjectTitleForm.addEventListener('submit', updateProjectTitle);
   // projectHeader.removeChild(currentTitle);
@@ -163,6 +164,191 @@ const createProjectTitle = (projectObj, parentElement) => {
   parentElement.appendChild(projectTitle);
 };
 
+const createEditTitleInput = (todo, parentElement) => {
+  const container = document.createElement('div');
+  container.classList.add('edit-todo-container');
+  const label = document.createElement('label');
+  label.classList.add('edit-todo-label');
+  label.htmlFor = 'edit-todo-title';
+  label.textContent = 'Todo title:';
+  container.appendChild(label);
+  const input = document.createElement('input');
+  input.classList.add('edit-todo-input');
+  input.type = 'text';
+  input.id = 'edit-todo-title';
+  input.setAttribute('maxlength', '23');
+  input.placeholder = todo.title;
+  input.value = todo.title;
+  input.required = true;
+  container.appendChild(input);
+  parentElement.appendChild(container);
+};
+
+const createEditDescriptionInput = (todo, parentElement) => {
+  const container = document.createElement('div');
+  container.classList.add('edit-todo-container');
+  const label = document.createElement('label');
+  label.classList.add('edit-todo-label');
+  label.htmlFor = 'edit-todo-description';
+  label.textContent = 'Todo description:';
+  container.appendChild(label);
+  const input = document.createElement('input');
+  input.classList.add('edit-todo-input');
+  input.type = 'text';
+  input.id = 'edit-todo-description';
+  input.placeholder = todo.description;
+  input.value = todo.description;
+  input.required = true;
+  container.appendChild(input);
+  parentElement.appendChild(container);
+};
+
+const createEditDueDateInput = (todo, parentElement) => {
+  const container = document.createElement('div');
+  container.classList.add('edit-todo-container');
+  const label = document.createElement('label');
+  label.classList.add('edit-todo-label');
+  label.htmlFor = 'edit-todo-due-date';
+  label.textContent = 'Due date:';
+  container.appendChild(label);
+  const input = document.createElement('input');
+  input.classList.add('edit-todo-input');
+  input.type = 'date';
+  input.id = 'edit-todo-due-date';
+  input.value = todo.due;
+  input.min = setTodayAsMinimumDueDate();
+  input.required = true;
+  container.appendChild(input);
+  parentElement.appendChild(container);
+};
+
+const createEditPriorityInput = (parentElement) => {
+  const container = document.createElement('div');
+  container.classList.add('edit-todo-container');
+  const label = document.createElement('label');
+  label.classList.add('edit-todo-label');
+  label.textContent = 'Priority level:';
+  label.htmlFor = 'edit-todo-priority';
+  const input = document.createElement('select');
+  input.classList.add('edit-todo-input');
+  input.id = 'edit-todo-priority';
+  input.required = true;
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.hidden = true;
+  defaultOption.textContent = 'Choose priority level';
+  input.appendChild(defaultOption);
+  const highOption = document.createElement('option');
+  highOption.value = 'high';
+  highOption.textContent = 'high';
+  input.appendChild(highOption);
+  const mediumOption = document.createElement('option');
+  mediumOption.value = 'medium';
+  mediumOption.textContent = 'medium';
+  input.appendChild(mediumOption);
+  const lowOption = document.createElement('option');
+  lowOption.value = 'low';
+  lowOption.textContent = 'low';
+  input.appendChild(lowOption);
+  container.appendChild(label);
+  container.appendChild(input);
+  parentElement.appendChild(container);
+};
+
+const updateProjectTodo = (
+  projectId,
+  todoId,
+  title,
+  description,
+  dueDate,
+  priority
+) => {
+  const projectToChange = projects.find((project) => project.id === projectId);
+  const todoToChange = projectToChange.todos.find((todo) => todo.id === todoId);
+  todoToChange.title = title;
+  todoToChange.description = description;
+  todoToChange.due = dueDate;
+  todoToChange.priority = priority;
+};
+
+const updateDOMTodo = (todo, title, description, dueDate, priority) => {
+  const task = todo.querySelector('.todo-item-task');
+  task.textContent = title;
+  const todoDescription = todo.querySelector('.todo-description');
+  todoDescription.textContent = description;
+  const todoDue = todo.querySelector('.todo-due');
+  todoDue.textContent = formateDate(dueDate);
+  const priorityMarker = todo.querySelector('.priority-marker');
+  priorityMarker.textContent = priority;
+  priorityMarker.className = `priority-marker ${priority}`;
+};
+
+const updateTodos = (
+  todoItem,
+  projectId,
+  todoId,
+  title,
+  description,
+  dueDate,
+  priority
+) => {
+  updateProjectTodo(projectId, todoId, title, description, dueDate, priority);
+  updateDOMTodo(todoItem, title, description, dueDate, priority);
+};
+
+const handleEditSubmit = (e) => {
+  e.preventDefault();
+  const parentProject = e.target.closest('.project-card');
+  const editTodoForm = e.target.closest('.edit-todo-form');
+  const updatedTitle = editTodoForm.querySelector('#edit-todo-title');
+  const updatedDescription = editTodoForm.querySelector(
+    '#edit-todo-description'
+  );
+  const updatedDueDate = editTodoForm.querySelector('#edit-todo-due-date');
+  const updatedPriority = editTodoForm.querySelector('#edit-todo-priority');
+  const todoItem = editTodoForm.nextElementSibling;
+  updateTodos(
+    todoItem,
+    parentProject.id,
+    todoItem.id,
+    updatedTitle.value,
+    updatedDescription.value,
+    updatedDueDate.value,
+    updatedPriority.value
+  );
+  editTodoForm.parentElement.removeChild(editTodoForm);
+  todoItem.style.display = 'unset';
+  setLocalStorage();
+};
+
+const createEditTodoForm = (todo) => {
+  const editForm = document.createElement('form');
+  editForm.classList.add('edit-todo-form');
+  createEditTitleInput(todo, editForm);
+  createEditDescriptionInput(todo, editForm);
+  createEditDueDateInput(todo, editForm);
+  createEditPriorityInput(editForm);
+  const updateTodoBtn = document.createElement('button');
+  updateTodoBtn.classList.add('update-todo-btn');
+  updateTodoBtn.textContent = 'Update todo';
+  editForm.appendChild(updateTodoBtn);
+  editForm.addEventListener('submit', handleEditSubmit);
+  return editForm;
+};
+
+const openEditTodo = (e) => {
+  const parentProject = e.target.closest('.project-card');
+  const todoList = e.target.closest('.todo-list');
+  const todoItem = e.target.closest('.todo-item');
+  const project = projects.find((project) => project.id === parentProject.id);
+  const todo = project.todos.find((todo) => todo.id === todoItem.id);
+  const editTodoForm = createEditTodoForm(todo);
+  todoList.insertBefore(editTodoForm, todoItem);
+  todoItem.style.display = 'none';
+};
+
 const createEditBtn = (parentElement) => {
   const editBtn = document.createElement('button');
   editBtn.classList.add('todo-edit-btn');
@@ -170,6 +356,7 @@ const createEditBtn = (parentElement) => {
   faEdit.classList.add('fas');
   faEdit.classList.add('fa-pen');
   editBtn.appendChild(faEdit);
+  editBtn.addEventListener('click', openEditTodo);
   parentElement.appendChild(editBtn);
 };
 
@@ -210,16 +397,16 @@ const createTodoUtilBtns = (parentElement) => {
   parentElement.appendChild(utilContainer);
 };
 
-const toggleCompletion = (e) => {
-  e.stopPropagation();
-  console.log(e);
-};
+// const toggleCompletion = (e) => {
+//   e.stopPropagation();
+//   console.log(e);
+// };
 
 const createCheckbox = (parentElement) => {
   const todoCheck = document.createElement('input');
   todoCheck.type = 'checkbox';
   todoCheck.classList.add('todo-check');
-  todoCheck.addEventListener('click', toggleCompletion);
+  // todoCheck.addEventListener('click', toggleCompletion);
   parentElement.appendChild(todoCheck);
 };
 
@@ -291,11 +478,25 @@ const createTodoContainer = (todo, parentElement) => {
   parentElement.appendChild(todoItemContainer);
 };
 
-const createTodoDescription = (todo, parentElement) => {
+const formateDate = (date) => {
+  const dateArray = date.split('-');
+  const flippedDateArray = dateArray.reverse();
+  const formattedDate = flippedDateArray.join('/');
+  return formattedDate;
+};
+
+const createTodoInfo = (todo, parentElement) => {
+  const todoInfo = document.createElement('div');
+  todoInfo.classList.add('todo-info');
   const todoDescription = document.createElement('div');
   todoDescription.classList.add('todo-description');
   todoDescription.textContent = todo.description;
-  parentElement.appendChild(todoDescription);
+  todoInfo.appendChild(todoDescription);
+  const todoDue = document.createElement('div');
+  todoDue.classList.add('todo-due');
+  todoDue.textContent = `Due: ${formateDate(todo.due)}`;
+  todoInfo.appendChild(todoDue);
+  parentElement.appendChild(todoInfo);
 };
 
 const createTodo = (todo, parentElement) => {
@@ -303,7 +504,7 @@ const createTodo = (todo, parentElement) => {
   todoItem.classList.add('todo-item');
   todoItem.id = todo.id;
   createTodoContainer(todo, todoItem);
-  createTodoDescription(todo, todoItem);
+  createTodoInfo(todo, todoItem);
   parentElement.appendChild(todoItem);
 };
 
@@ -468,6 +669,7 @@ const onNewTodoSubmit = (e) => {
   const parentProject = e.target.closest('.project-card');
   const newTodoForm = document.querySelector('.new-todo-form');
   const todoList = parentProject.querySelector('.todo-list');
+  const addTodoBtn = parentProject.querySelector('.fa-plus');
   const newTitle = document.querySelector('#new-todo-form-title-input');
   const newDescription = document.querySelector(
     '#new-todo-form-description-input'
@@ -488,7 +690,7 @@ const onNewTodoSubmit = (e) => {
     }
   }
   createTodo(newTodo, todoList);
-  resetElementRotation();
+  resetElementRotation(addTodoBtn);
   removeElement(parentProject, newTodoForm);
   setLocalStorage();
   updateNumTodos(parentProject, todoArrayLength);
@@ -583,6 +785,7 @@ const createProject = (e) => {
   const newProject = Project(projectTitleInput.value);
   projects.push(newProject);
   createProjectCard(newProject);
+  setLocalStorage();
   toggleAddProjectForm();
 };
 

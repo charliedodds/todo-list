@@ -201,28 +201,40 @@ select {
   padding: 0.25rem;
 }
 
-.todo-description {
+.todo-info {
   display: none;
   margin: 0.125rem 0 0.5rem 1.75rem;
   font-size: 1.3rem;
 }
 
-.new-todo-form {
+.todo-due {
+  margin-top: 0.25rem;
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.new-todo-form,
+.edit-todo-form {
+  padding: 0.75rem;
+  border: 1px solid #00000011;
   display: flex;
   flex-direction: column;
 }
 
-.new-todo-form-container {
+.new-todo-form-container,
+.edit-todo-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 
-.new-todo-form-label {
+.new-todo-form-label,
+.edit-todo-label {
   font-size: 1.3rem;
 }
 
-.new-todo-form-input {
+.new-todo-form-input,
+.edit-todo-input {
   margin: 0.25rem 0;
   width: 50%;
   flex: 1;
@@ -230,15 +242,18 @@ select {
 }
 
 .submit-todo-btn,
-.add-project-btn {
+.add-project-btn,
+.update-todo-btn {
   padding: 0 0 0.25rem;
   border-bottom: 1px solid #00000000;
   transition: all 400ms;
 }
 
-.submit-todo-btn {
+.submit-todo-btn,
+.update-todo-btn {
   width: fit-content;
-  margin: 1rem auto;
+  margin: 0.25rem auto 0;
+  border-radius: 4px;
   font-size: 1.5rem;
   font-weight: 500;
 }
