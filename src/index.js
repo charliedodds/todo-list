@@ -24,8 +24,8 @@ const createInitialProject = () => {
 
   instructionsProject.todos.push(
     Todo(
-      'How to add todos',
-      'Tap the plus sign to add a todo, then tap "Add todo"',
+      'How to add projects',
+      'Just tap "Add Project" below',
       '2021-12-31',
       'medium'
     )
@@ -33,8 +33,8 @@ const createInitialProject = () => {
 
   instructionsProject.todos.push(
     Todo(
-      'How to add projects',
-      'Just tap "Add Project" below',
+      'How to add todos',
+      'Tap the plus sign to add a todo, then tap "Add todo"',
       '2021-12-31',
       'medium'
     )
@@ -53,6 +53,15 @@ const createInitialProject = () => {
     Todo(
       'Mark a todo as done',
       "Just tap the checkbox on the todo you want to mark as completed. Don't delete completed todos for a greater sense of accomplishment!",
+      '2021-12-31',
+      'medium'
+    )
+  );
+
+  instructionsProject.todos.push(
+    Todo(
+      'Feel free to delete this project',
+      'Once you understand how to use this todo list, feel free to delete this project. If you ever leave the page without any projects saved, these instructions will reappear!',
       '2021-12-31',
       'low'
     )
