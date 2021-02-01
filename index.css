@@ -369,4 +369,24 @@ select {
   .project-card {
     width: 60%;
   }
+
+  .add-project-form {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1439.98px) {
+  .project-card {
+    width: 50%;
+  }
+
+  .add-project-form {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1601px) {
+  .project-card {
+    width: 40%;
+  }
 }
