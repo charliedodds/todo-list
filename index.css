@@ -231,6 +231,7 @@ select {
 .new-todo-form-label,
 .edit-todo-label {
   font-size: 1.3rem;
+  margin: auto 0;
 }
 
 .new-todo-form-input,
