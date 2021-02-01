@@ -541,7 +541,7 @@ const handleProjectBtnClick = (e) => {
   e.target.classList.toggle('flip');
   toggleProjectUtilButtons(parent);
   resetElementRotation(addTodoBtn);
-  const todoForm = document.querySelector('.new-todo-form');
+  const todoForm = parent.querySelector('.new-todo-form');
   removeElement(parent, todoForm);
 };
 
@@ -667,15 +667,19 @@ const createSubmitBtn = (parentElement) => {
 const onNewTodoSubmit = (e) => {
   e.preventDefault();
   const parentProject = e.target.closest('.project-card');
-  const newTodoForm = document.querySelector('.new-todo-form');
+  const newTodoForm = parentProject.querySelector('.new-todo-form');
   const todoList = parentProject.querySelector('.todo-list');
   const addTodoBtn = parentProject.querySelector('.fa-plus');
-  const newTitle = document.querySelector('#new-todo-form-title-input');
-  const newDescription = document.querySelector(
+  const newTitle = parentProject.querySelector('#new-todo-form-title-input');
+  const newDescription = parentProject.querySelector(
     '#new-todo-form-description-input'
   );
-  const newDueDate = document.querySelector('#new-todo-form-due-date-input');
-  const newPriority = document.querySelector('#new-todo-form-priority-input');
+  const newDueDate = parentProject.querySelector(
+    '#new-todo-form-due-date-input'
+  );
+  const newPriority = parentProject.querySelector(
+    '#new-todo-form-priority-input'
+  );
   const newTodo = Todo(
     newTitle.value,
     newDescription.value,
@@ -709,8 +713,8 @@ const createNewTodoForm = () => {
 };
 
 const toggleNewTodoForm = (e) => {
-  const todoForm = document.querySelector('.new-todo-form');
   const parentProject = e.target.closest('.project-card');
+  const todoForm = parentProject.querySelector('.new-todo-form');
   const projectAddTodoBtn = parentProject.querySelector('.fa-plus');
   if (!todoForm) {
     const projectFooter = parentProject.querySelector('.project-footer');
