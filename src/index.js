@@ -27,7 +27,7 @@ const createInitialProject = () => {
       'How to add projects',
       'Just tap "Add Project" below',
       '2021-12-31',
-      'medium'
+      'high'
     )
   );
 
@@ -54,7 +54,7 @@ const createInitialProject = () => {
       'Mark a todo as done',
       "Just tap the checkbox on the todo you want to mark as completed. Don't delete completed todos for a greater sense of accomplishment!",
       '2021-12-31',
-      'medium'
+      'low'
     )
   );
 
@@ -118,9 +118,6 @@ const openEditProject = (e) => {
   const projectCard = e.target.closest('.project-card');
   const projectHeader = e.target.closest('.project-header');
   const currentTitle = projectHeader.querySelector('.project-title');
-  // const projectHeaderUtilButtons = projectHeader.querySelector(
-  //   '.project-utils'
-  // );
   const editProjectTitleForm = document.createElement('form');
   editProjectTitleForm.classList.add('edit-project-title-form');
   const titleInput = document.createElement('input');
@@ -130,8 +127,6 @@ const openEditProject = (e) => {
   titleInput.required = true;
   editProjectTitleForm.appendChild(titleInput);
   editProjectTitleForm.addEventListener('submit', updateProjectTitle);
-  // projectHeader.removeChild(currentTitle);
-  // projectHeader.removeChild(projectHeaderUtilButtons);
   projectHeader.style.display = 'none';
   projectCard.prepend(editProjectTitleForm);
 };
@@ -231,7 +226,7 @@ const createEditDueDateInput = (todo, parentElement) => {
   parentElement.appendChild(container);
 };
 
-const createEditPriorityInput = (parentElement) => {
+const createEditPriorityInput = (todo, parentElement) => {
   const container = document.createElement('div');
   container.classList.add('edit-todo-container');
   const label = document.createElement('label');
@@ -242,24 +237,28 @@ const createEditPriorityInput = (parentElement) => {
   input.classList.add('edit-todo-input');
   input.id = 'edit-todo-priority';
   input.required = true;
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  defaultOption.hidden = true;
-  defaultOption.textContent = 'Choose priority level';
-  input.appendChild(defaultOption);
   const highOption = document.createElement('option');
   highOption.value = 'high';
   highOption.textContent = 'high';
-  input.appendChild(highOption);
   const mediumOption = document.createElement('option');
   mediumOption.value = 'medium';
   mediumOption.textContent = 'medium';
-  input.appendChild(mediumOption);
   const lowOption = document.createElement('option');
   lowOption.value = 'low';
   lowOption.textContent = 'low';
+  switch (todo.priority) {
+    case 'high':
+      highOption.selected = true;
+      break;
+    case 'medium':
+      mediumOption.selected = true;
+      break;
+    case 'low':
+      lowOption.selected = true;
+      break;
+  }
+  input.appendChild(highOption);
+  input.appendChild(mediumOption);
   input.appendChild(lowOption);
   container.appendChild(label);
   container.appendChild(input);
@@ -338,7 +337,7 @@ const createEditTodoForm = (todo) => {
   createEditTitleInput(todo, editForm);
   createEditDescriptionInput(todo, editForm);
   createEditDueDateInput(todo, editForm);
-  createEditPriorityInput(editForm);
+  createEditPriorityInput(todo, editForm);
   const updateTodoBtn = document.createElement('button');
   updateTodoBtn.classList.add('update-todo-btn');
   updateTodoBtn.textContent = 'Update todo';
@@ -406,16 +405,10 @@ const createTodoUtilBtns = (parentElement) => {
   parentElement.appendChild(utilContainer);
 };
 
-// const toggleCompletion = (e) => {
-//   e.stopPropagation();
-//   console.log(e);
-// };
-
 const createCheckbox = (parentElement) => {
   const todoCheck = document.createElement('input');
   todoCheck.type = 'checkbox';
   todoCheck.classList.add('todo-check');
-  // todoCheck.addEventListener('click', toggleCompletion);
   parentElement.appendChild(todoCheck);
 };
 
